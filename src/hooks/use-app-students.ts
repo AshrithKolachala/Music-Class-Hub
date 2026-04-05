@@ -4,7 +4,7 @@ import {
   useCreateStudent,
   useDeleteStudent,
   getListStudentsQueryKey
-} from "@workspace/api-client-react";
+} from "@/lib/api-client";
 
 export function useAppStudents() {
   const queryClient = useQueryClient();

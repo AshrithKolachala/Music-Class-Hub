@@ -5,7 +5,7 @@ import {
   useUpdateClass,
   useDeleteClass,
   getListClassesQueryKey
-} from "@workspace/api-client-react";
+} from "@/lib/api-client";
 
 export function useAppClasses() {
   const queryClient = useQueryClient();

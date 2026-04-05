@@ -16,7 +16,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "wouter";
-import { ClassStatus } from "@workspace/api-client-react";
+import { ClassStatus } from "@/lib/api-client";
 
 const classSchema = z.object({
   title: z.string().min(1, "Title is required"),

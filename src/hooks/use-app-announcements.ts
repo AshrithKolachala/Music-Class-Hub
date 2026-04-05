@@ -4,7 +4,7 @@ import {
   useCreateAnnouncement,
   useDeleteAnnouncement,
   getListAnnouncementsQueryKey
-} from "@workspace/api-client-react";
+} from "@/lib/api-client";
 
 export function useAppAnnouncements() {
   const queryClient = useQueryClient();
