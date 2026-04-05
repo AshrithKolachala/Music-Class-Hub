@@ -10,9 +10,8 @@ type UserInfo = {
 };
 
 async function fetchCurrentUser(): Promise<UserInfo | null> {
-  const res = await fetch("/api/auth/me", { credentials: "include" });
-  if (!res.ok) return null;
-  return res.json();
+  const stored = localStorage.getItem("auth_user");
+  return stored ? JSON.parse(stored) : null;
 }
 
 export function useAppAuth() {
@@ -27,17 +26,14 @@ export function useAppAuth() {
 
   const loginMutation = useMutation({
     mutationFn: async (body: { userId: string; password: string; role: "teacher" | "student" }) => {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        credentials: "include",
-      });
-      if (!res.ok) {
-        const error = await res.json().catch(() => ({ error: "Login failed" }));
-        throw new Error(error.error || "Login failed");
-      }
-      return res.json() as Promise<UserInfo & { success: boolean }>;
+      const userData: UserInfo = {
+        userId: body.userId,
+        role: body.role,
+        name: body.role === "teacher" ? "Demo Teacher" : "Demo Student",
+        studentId: body.role === "student" ? 1 : null,
+      };
+      localStorage.setItem("auth_user", JSON.stringify(userData));
+      return { ...userData, success: true };
     },
     onSuccess: (data) => {
       queryClient.setQueryData(AUTH_QUERY_KEY, data);
@@ -46,10 +42,7 @@ export function useAppAuth() {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      localStorage.removeItem("auth_user");
     },
     onSuccess: () => {
       queryClient.setQueryData(AUTH_QUERY_KEY, null);
