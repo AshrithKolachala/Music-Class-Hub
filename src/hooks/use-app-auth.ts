@@ -9,6 +9,13 @@ type UserInfo = {
   studentId: number | null;
 };
 
+// Mock credentials - only these can login
+const VALID_CREDENTIALS: Record<string, { password: string; role: "teacher" | "student"; name: string }> = {
+  "TEACHER-001": { password: "password123", role: "teacher", name: "Dr. Sharma" },
+  "STU-001": { password: "password123", role: "student", name: "Arjun" },
+  "STU-002": { password: "password123", role: "student", name: "Priya" },
+};
+
 async function fetchCurrentUser(): Promise<UserInfo | null> {
   const stored = localStorage.getItem("auth_user");
   return stored ? JSON.parse(stored) : null;
